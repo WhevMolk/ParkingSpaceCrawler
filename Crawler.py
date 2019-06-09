@@ -16,7 +16,7 @@ class Crawler():
         counter = 0
 
         while href != '':
-            print(main_url+href)
+            print(main_url+href +'\n')
             time.sleep(1)
             r = requests.get(main_url+href)
             main_site = BeautifulSoup(r.text, 'html.parser')
@@ -41,7 +41,6 @@ class Crawler():
                 data['URL'] = str(main_url+e_href)
 
                 description = []
-
                 for i in expose_site.find_all('pre'):
                     description.append(i.text)
 
@@ -50,7 +49,7 @@ class Crawler():
                 df = df.append(data, sort=False)
                 counter += 1
 
-            df.to_csv('./data/' + str(datetime.now())[:19].replace(':', '').replace('.', '') + '.csv',
+            df.to_csv('./raw/' + str(datetime.now())[:19].replace(':', '').replace('.', '') + '.csv',
                       sep=';', decimal=',', encoding='utf-8', index_label='timestamp')
 
             next = main_site.select('#pager a')
